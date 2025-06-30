@@ -1,0 +1,4 @@
+[submodule "interactive"]
+	path = interactive
+	url = git@github.com:clementjambon/brepdiff_webvis.git
+    branch = gh-pages

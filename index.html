@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BrepDiff</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@300;400;500;600&family=Roboto+Mono&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Architects Daughter" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <script src="./js/bulma_toggle.js"></script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/5fd1dd8417.js" crossorigin="anonymous"></script>
+
+    <!-- Academicons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+    <link rel="icon" href="./assets/favicon-32x32.png" />
+</head>
+
+<body>
+    <!-- BEGIN: Title & Authors Section -->
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-widescreen has-text-centered">
+                <h1 class="title is-size-1 is-size-2-mobile publication-title">
+                    BrepDiff: Single-stage B-rep Diffusion Model
+                </h1>
+                <div class="is-size-3-tablet publication-institute">
+                    <span class="author-block">SIGGRAPH 2025 Conference</span>
+                </div>
+
+                <div class="container is-max-desktop has-text-centered author-list">
+                    <div class="columns is-mobile is-centered is-gapless">
+                        <div class="column is-3-tablet is-size-5-tablet publication-authors">
+                            <a class="author-blocks" href="https://mingilikesmangos.github.io/">Mingi Lee*
+                                <sup>1</sup></a>
+                        </div>
+                        <div class="column is-3-tablet is-size-5-tablet publication-authors">
+                            <a class="author-blocks" href="https://dszhang.me/about">Dongsu Zhang* <sup>1</sup></a>
+                        </div>
+                        <div class="column is-3-tablet is-size-5-tablet publication-authors">
+                            <a class="author-blocks" href="https://clementjambon.github.io/">Clément Jambon*
+                                <sup>2</sup></a>
+                        </div>
+                        <div class="column is-3-tablet is-size-5-tablet publication-authors">
+                            <a class="author-blocks" href="http://3d.snu.ac.kr/members">Young Min Kim<sup>1</sup></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="is-size-4-tablet equal-contribution">
+                    <span class="author-block">* denotes equal contribution</span>
+                </div>
+
+                <div class="is-size-4-tablet publication-institute">
+                    <span class="author-block">Seoul National University</span>
+                    <sup>1</sup>
+                    &nbsp;&nbsp;
+                    <span class="author-block">MIT</span>
+                    <sup>2</sup>
+                </div>
+
+                <div class="is-size-5 link-blocks">
+                    <a class="button link-button is-rounded" href="https://drive.google.com/file/d/1ZkdjmljmbJer5Lbn55UwKRqR9AcHBydA/view?usp=sharing">
+                        <span class="icon">
+                            <i class="fa-solid fa-file"></i>
+                        </span>
+                        <span>Paper</span>
+                    </a>
+                    <a class="button link-button is-rounded" href="./interactive/interactive.html">
+                        <span class="icon">
+                            <i class="fas fa-mouse"></i>
+                        </span>
+                        <span>Interactive Results</span>
+                    </a>
+                    <a class="button link-button is-rounded" href="https://youtu.be/qnXEtweEcL4">
+                        <span class="icon">
+                            <i class="fa-brands fa-youtube"></i>
+                        </span>
+                        <span>Video</span>
+                    </a>
+                    <a class="button link-button is-rounded" href="https://github.com/brepdiff/brepdiff">
+                        <span class="icon">
+                            <i class="fab fa-github"></i>
+                        </span>
+                        <span>Code</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END: Title & Authors Section -->
+    <!-- BEGIN: Teaser Section -->
+    <section class="hero">
+        <div class="container is-max-desktop">
+            <div class="hero-body">
+                <img src="./assets/teaser.png" width="100%" style="display: block; margin: auto;" />
+                <h2 class="tldr">
+                    <br />
+                    We present <i>BrepDiff</i>, a simple, single-stage diffusion model for generating Boundary
+                    Representations (B-reps). BrepDiff enables intuitive, editable geometry creation, including
+                    completion, merging, and
+                    interpolation, while achieving competitive performance on unconditional generation.
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="container is-max-desktop" style="margin-bottom: 2rem;">
+        <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/qnXEtweEcL4" title="BrepDiff Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+    </div>
+    <!-- END: Teaser Section -->
+    <!-- BEGIN: Abstract Section -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="column is-full-width is-centered has-text-centered has-text-left-mobile">
+                <h2 class="subtitle is-size-3 has-text-weight-medium publication-keywords">
+                    Abstract
+                </h2>
+                <div class="content has-text-justified">
+                    <p>
+                        The Boundary Representation (B-rep) is a widely used 3D model representation of most consumer
+                        products designed with CAD software. However, its highly irregular and sparse set of
+                        relationships poses significant
+                        challenges for designing a generative model tailored to B-reps. Existing approaches use
+                        multi-stage approaches to satisfy the complex constraints sequentially. As a result, the final
+                        geometry cannot incorporate
+                        user edits due to the non-deterministic dependencies between cascaded stages. In contrast, we
+                        propose <i>BrepDiff</i>, a single-stage diffusion model for B-rep generation. We present a
+                        masked UV grid
+                        representation consisting of structured point samples from faces, serving as input for a
+                        diffusion transformer. By introducing an asynchronous and shifted noise schedule, we improve the
+                        training signal, enabling
+                        the diffusion model to better capture the distribution of UV grids. The explicitness of our
+                        masked UV grid representation enables users to intuitively understand and freely design surface
+                        geometry without being
+                        constrained by topological validity. The interconnectivity can be derived from the face layout,
+                        which is later processed into a valid solid volume during post-processing. Our approach achieves
+                        performance on par
+                        with state-of-the-art cascaded models while offering complex and diverse manipulations of
+                        geometry and topology, such as shape completion, merging, and interpolation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END: Abstract Section -->
+
+    <!-- BEGIN: Method Section -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="column is-full-width is-centered has-text-centered">
+                <h2 class="subtitle is-size-3 has-text-weight-medium publication-keywords">
+                    Method
+                </h2>
+                <h3 class="subtitle is-size-4 has-text-weight-medium publication-keywords" style="margin-top: 2rem;">
+                    Masked UV grids
+                </h3>
+                <img src="./assets/uvgrid.png" width="80%" style="display: block; margin: auto;" />
+            </div>
+
+            <p class="normal-text">
+                We represent each B-rep face as a masked UV grid: a regular grid of 3D point samples and visibility
+                masks. While this representation does not encode topology explicitly, we reconstruct a valid solid B-rep
+                through post-processing, by extending faces and resolving their intersections.
+            </p>
+
+            <div class="column is-full-width is-centered has-text-centered">
+                <h3 class="subtitle is-size-4 has-text-weight-medium publication-keywords" style="margin-top: 2rem;">
+                    Generating masked UV grids with a diffusion model
+                </h3>
+            </div>
+            <div class="fixed-grid has-5-cols" style="max-width: 100%; margin: 0 auto;">
+                <!-- <div class="fixed-grid has-3-cols">-->
+                <div class="grid">
+
+                    <!-- First row: Videos -->
+                    <div class="cell" align="center" style="position: relative;">
+                        <video class="results_video" id="0502" autoplay muted loop playsinline height="100%"
+                            style="z-index: 0;">
+                            <source src="./assets/videos/0502.mp4" type="video/mp4" />
+                        </video>
+                        <a class="button is-light" style="position: absolute; top: 0; right: 0; z-index: 10;"
+                            href="./interactive/interactive.html?result=0502">
+                            <span class="icon">
+                                <i class="fas fa-mouse"></i>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="cell" align="center" style="position: relative;">
+                        <video class="results_video" id="0590" autoplay muted loop playsinline height="100%"
+                            style="z-index: 0;">
+                            <source src="./assets/videos/0590.mp4" type="video/mp4" />
+                        </video>
+                        <a class="button is-light" style="position: absolute; top: 0; right: 0; z-index: 10;"
+                            href="./interactive/interactive.html?result=0590">
+                            <span class="icon">
+                                <i class="fas fa-mouse"></i>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="cell" align="center" style="position: relative;">
+                        <video class="results_video" id="0672" autoplay muted loop playsinline height="100%"
+                            style="z-index: 0;">
+                            <source src="./assets/videos/0672.mp4" type="video/mp4" />
+                        </video>
+                        <a class="button is-light" style="position: absolute; top: 0; right: 0; z-index: 10;"
+                            href="./interactive/interactive.html?result=0672">
+                            <span class="icon">
+                                <i class="fas fa-mouse"></i>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="cell" align="center" style="position: relative;">
+                        <video class="results_video" id="0699" autoplay muted loop playsinline height="100%"
+                            style="z-index: 0;">
+                            <source src="./assets/videos/0699.mp4" type="video/mp4" />
+                        </video>
+                        <a class="button is-light" style="position: absolute; top: 0; right: 0; z-index: 10;"
+                            href="./interactive/interactive.html?result=0699">
+                            <span class="icon">
+                                <i class="fas fa-mouse"></i>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="cell" align="center" style="position: relative;">
+                        <video class="results_video" id="0955" autoplay muted loop playsinline height="100%"
+                            style="z-index: 0;">
+                            <source src="./assets/videos/0955.mp4" type="video/mp4" />
+                        </video>
+                        <a class="button is-light" style="position: absolute; top: 0; right: 0; z-index: 10;"
+                            href="./interactive/interactive.html?result=0955">
+                            <span class="icon">
+                                <i class="fas fa-mouse"></i>
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Second row !-->
+                    <div class="cell" align="center">
+                        <video class="results_video" id="698" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0698.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+
+                    <div class="cell" align="center">
+                        <video class="results_video" id="0870" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0870.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div class="cell" align="center">
+                        <video class="results_video" id="0133" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0133.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div class="cell" align="center">
+                        <video class="results_video" id="0151" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0151.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div class="cell" align="center">
+                        <video class="results_video" id="0691" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0691.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+
+
+                    <!-- Third row !-->
+                    <div class="cell" align="center">
+                        <video class="results_video" id="0087" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0087.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div class="cell" align="center">
+                        <video class="results_video" id="0167" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0167.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div class="cell" align="center">
+                        <video class="results_video" id="0210" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0210.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div class="cell" align="center">
+                        <video class="results_video" id="0282" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0282.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div class="cell" align="center">
+                        <video class="results_video" id="0346" autoplay muted loop playsinline height="100%">
+                            <source src="./assets/videos/0346.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+
+
+                </div>
+                <!-- end .grid -->
+            </div>
+            <!-- end .fixed-grid -->
+            <p align="center" class="normal-text" style="margin-top: 1rem;">
+                Generated masked UV grids through the diffusion process (point cloud), and the final solid B-reps
+                reconstructed via post-processing (blue).
+            </p>
+        </div>
+        <div class="container is-max-desktop">
+            &nbsp;
+            <p class="normal-text">
+                Masked UV grids are flattened into tokens, enabling the use of a diffusion model for generation.
+                Our method, BrepDiff, denoises these tokens in a single stage to generate per-face geometry, in contrast
+                to prior multi-stage approaches.
+                To ensure high-quality results, we introduce a modified noise schedule and an asynchronous denoising
+                strategy, allowing the model to better capture the distribution of plausible UV grids.
+                Although the model does not directly predict topology, we recover a valid solid B-rep through
+                post-processing, as detailed in the paper.
+            </p>
+        </div>
+    </section>
+    <!-- END: Method Section -->
+    <!-- BEGIN: Results Section -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="column is-full-width is-centered has-text-centered">
+                <h2 class="subtitle is-size-3 has-text-weight-medium publication-keywords">
+                    Results
+                </h2>
+            </div>
+            <div class="column is-full-width is-centered has-text-centered">
+                <h3 class="subtitle is-size-4 has-text-weight-medium publication-keywords" style="margin-top: 1rem;">
+                    Unconditional generation
+                </h3>
+            </div>
+
+            <div class="container is-max-desktop">
+                <div class="hero-body">
+                    <img src="./assets/unconditional.png" width="80%" style="display: block; margin: auto;" />
+                </div>
+            </div>
+            <p align="center" class="normal-text">
+                BrepDiff can generate B-reps trained on the ABC dataset.
+            </p>
+
+            <div class="column is-full-width is-centered has-text-centered">
+                <h3 class="subtitle is-size-4 has-text-weight-medium publication-keywords" style="margin-top: 2rem;">
+                    Editing with BrepDiff
+                </h3>
+            </div>
+            <p class="normal-text" style="padding-top: 1em; width: 80%; margin: 0 auto; text-align: center;">
+                The explicitness of the masked UV-grid representation enables users to freely manipulate geometry without being constrained by topological validity.
+                BrepDiff supports from manual user edits to intuitive and advanced editing operations such as autocompletion, merging, and interpolation.
+            </p>
+            <div class="container is-max-desktop">
+                &nbsp;
+                &nbsp;
+                <div class="hero-body">
+                    <a href="./interactive/interactive.html?result=autocompletion_8side_2">
+                        <img src="./assets/completion.png" width="80%" style="display: block; margin: auto;" />
+                        <a class="button is-light" style="position: absolute; top: 0px; right:8%;"
+                            href="./interactive/interactive.html?result=autocompletion_8side_2">
+                            <span class="icon">
+                                <i class="fas fa-mouse"></i>
+                            </span>
+                        </a>
+                    </a>
+                </div>
+            </div>
+            <p align="center" class="normal-text" style="padding-top: 1em;">
+                Given a partial shape, BrepDiff can propose multiple completed B-reps.
+            </p>
+            <div class="container is-max-desktop" style="padding-top: 1rem;">
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <div class="hero-body">
+                    <a href="./interactive/interactive.html?result=interp_fig12_1">
+                        <img src="./assets/interpolation.png" width="80%" style="display: block; margin: auto;" />
+                        <a class="button is-light" style="position: absolute; top: 0px; right:8%;"
+                            href="./interactive/interactive.html?result=interp_fig12_1">
+                            <span class="icon">
+                                <i class="fas fa-mouse"></i>
+                            </span>
+                        </a>
+                    </a>
+                </div>
+            </div>
+            <p align="center" class="normal-text">
+                Given two B-reps, we can interpolate between them, even when their topologies differ.
+            </p>
+
+            <div class="container is-max-desktop" style="padding-top: 1rem;">
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <div class="hero-body">
+                    <img src="./assets/session.png" width="90%" style="display: block; margin: auto;" />
+                </div>
+            </div>
+            <p align="center" class="normal-text" style="padding-top: 1em;">
+                BrepDiff enables complex editing sessions.
+                For example, we can start by interpolating between two objects.
+                We can then merge the result with a partial shape, and further edit it while ultimately recovering a valid shape with autocompletion.
+            </p>
+
+            <div class="container is-max-desktop" style="padding-top: 2rem;">
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <div class="hero-body">
+                    <video src="./assets/brepdiff_x4.mp4" width="90%" style="display: block; margin: auto;" autoplay muted loop playsinline />
+                </div>
+            </div>
+            <p align="center" class="normal-text" style="padding-top: 1em;">
+                To showcase these capabilities, we've implemented and made available an interactive viewer. 
+                Check out our code at <a href="https://github.com/brepdiff/brepdiff">GitHub</a>.
+            </p>
+
+        </div>
+    </section>
+    <!-- END: Results Section -->
+
+    <!-- BEGIN: BibTeX Section -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="column is-full-width is-centered has-text-centered">
+                <h2 class="subtitle is-size-3 has-text-weight-medium publication-keywords">BibTeX</h2>
+            </div>
+            <div class="box bibtex-box">
+<pre style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">
+@article{lee2025brepdiff,
+    author = {Mingi Lee and Dongsu Zhang and Cl\'{e}ment Jambon and Young Min Kim},
+    title = {BrepDiff: Single-stage B-rep Diffusion Model},
+    booktitle = {Proceedings of the ACM SIGGRAPH Conference Papers (SIGGRAPH Conference Papers '25)},
+    year = {2025},
+    isbn = {979-8-4007-1540-2/2025/08},
+    location = {Vancouver, BC, Canada},
+    numpages = {10},
+    doi = {10.1145/3721238.3730713},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA}
+}
+</pre>
+            </div>
+        </div>
+    </section>
+    <!-- END: BibTeX Section -->
+</body>
+
+</html>
